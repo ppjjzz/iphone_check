@@ -19,6 +19,13 @@ app.use(cors());
 app.use(logger);
 
 const sendMessage = async (iphoneType, storeName) => {
+  const date = new Date();
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const h = date.getHours();
+  const min = date.getMinutes();
+  const sec = date.getSeconds();
   const data = {
     "template_id": "1dmrMj3G065HCMRODNczR768zcWSEyKTnU_QDCLOguo",
     "page": "page/index",
@@ -28,7 +35,7 @@ const sendMessage = async (iphoneType, storeName) => {
             "value": storeName
         },
         "date3": {
-            "value": `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toLocaleTimeString()}`
+            "value": `${y}-${m}-${d} ${h}:${min}:${sec}`
         },
         "thing2": {
             "value": iphoneType
