@@ -77,8 +77,8 @@ app.post('/iphone14', async (req, res) => {
     
   }
   try {
-    const res = sendMessage('iPhone 14 Pro Max 256GB 深空黑色', '珠江新城');
-    console.log(res);
+    const result = await sendMessage('iPhone 14 Pro Max 256GB 深空黑色', '珠江新城');
+    console.log(result);
     
   } catch (error) {
     console.error(error);
