@@ -4,6 +4,12 @@ const cors = require("cors");
 const morgan = require("morgan");
 const { init: initDB, Counter } = require("./db");
 
+const axios = require('axios');
+
+const url = 'https://www.apple.com.cn/shop/fulfillment-messages?pl=true&mts.0=regular&mts.1=compact&parts.0=MQ883CH/A&parts.1=MQ8A3CH/A&parts.2=MQ893CH/A&parts.3=MQ873CH/A&searchNearby=true&store=R639';
+
+let timer = null;
+
 const logger = morgan("tiny");
 
 const app = express();
@@ -42,6 +48,18 @@ app.get("/api/count", async (req, res) => {
   });
 });
 
+app.post('/iphone14', async (req, res) => {
+  if (req.headers["x-wx-source"]) {
+    const openId = req.headers["x-wx-openid"];
+    
+  }
+  res.json({
+    code: 0,
+    msg: 'success',
+    data: JSON.stringify(req.headers)
+  })
+});
+
 // 小程序调用，获取微信 Open ID
 app.get("/api/wx_openid", async (req, res) => {
   if (req.headers["x-wx-source"]) {
@@ -56,6 +74,40 @@ async function bootstrap() {
   app.listen(port, () => {
     console.log("启动成功", port);
   });
+  timer = setInterval(() => {
+    main(); 
+  }, 2000);  
 }
 
 bootstrap();
+
+
+async function main () {
+  try {
+     const res = await axios.get(url + '&_=' + Date.now());
+     const stores = res.data.body.content.pickupMessage.stores;
+  //    console.log(stores);
+     for (const store of stores) {
+          const { storeName, partsAvailability, city } = store;
+          if (city !== '广州') {
+              continue;
+          }
+          const canBuy = [];
+          for (const part of Object.values(partsAvailability)) {
+              const compact = part.messageTypes.compact;
+              const text = `${compact.storePickupProductTitle}  ${compact.storePickupQuote}`;
+              canBuy.push(text);
+              // if (part.pickupSearchQuote !== '暂无供应') {
+              //     canBuy.push({
+              //         status: part.pickupSearchQuote,
+              //         type: part.storePickupProductTitle
+              //     })
+              // }
+          }
+          console.log(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}  ${storeName}  ${JSON.stringify(canBuy)}`)
+     }
+     console.log('\n\n\n')
+  } catch (error) {
+      
+  }
+}
