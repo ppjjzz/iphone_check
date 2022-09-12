@@ -18,6 +18,29 @@ app.use(express.json());
 app.use(cors());
 app.use(logger);
 
+const sendMessage = async (iphoneType, storeName) => {
+  const data = {
+    "template_id": "1dmrMj3G065HCMRODNczR768zcWSEyKTnU_QDCLOguo",
+    "page": "page/index",
+    "touser": "opuTv0A8A1_DQBHDGqGBrvdIMEdA",
+    "data": {
+      "thing1": {
+            "value": iphoneType
+        },
+        "date3": {
+            "value": `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        },
+        "thing2": {
+            "value": storeName
+        }
+    },
+    "miniprogram_state": "developer",
+    "lang": "zh_CN"
+  };
+  const resp = await axios.post("https://api.weixin.qq.com/cgi-bin/message/subscribe/send", data)
+  return resp.data
+}
+
 // 首页
 app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -53,6 +76,7 @@ app.post('/iphone14', async (req, res) => {
     const openId = req.headers["x-wx-openid"];
     
   }
+  sendMessage('iPhone 14 Pro Max 256GB 深空黑色', '珠江新城');
   res.json({
     code: 0,
     msg: 'success',
@@ -74,12 +98,13 @@ async function bootstrap() {
   app.listen(port, () => {
     console.log("启动成功", port);
   });
-  timer = setInterval(() => {
-    main(); 
-  }, 2000);  
+  // timer = setInterval(() => {
+  //   main(); 
+  // }, 2000);  
 }
 
 bootstrap();
+
 
 
 async function main () {
