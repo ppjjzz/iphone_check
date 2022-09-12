@@ -28,7 +28,7 @@ const sendMessage = async (iphoneType, storeName) => {
             "value": storeName
         },
         "date3": {
-            "value": `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+            "value": `${new Date().toLocaleTimeString()}`
         },
         "thing2": {
             "value": iphoneType
