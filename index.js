@@ -76,7 +76,13 @@ app.post('/iphone14', async (req, res) => {
     const openId = req.headers["x-wx-openid"];
     
   }
-  sendMessage('iPhone 14 Pro Max 256GB 深空黑色', '珠江新城');
+  try {
+    const res = sendMessage('iPhone 14 Pro Max 256GB 深空黑色', '珠江新城');
+    console.log(res);
+    
+  } catch (error) {
+    console.error(error);
+  }
   res.json({
     code: 0,
     msg: 'success',
