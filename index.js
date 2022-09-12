@@ -93,11 +93,7 @@ app.post('/iphone14', async (req, res) => {
   res.json({
     code: 0,
     msg: 'success',
-    data: {
-      "date3": {
-        "value": `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toLocaleTimeString()}`
-    },
-    }
+    data: null
   })
 });
 
@@ -115,9 +111,9 @@ async function bootstrap() {
   app.listen(port, () => {
     console.log("启动成功", port);
   });
-  // timer = setInterval(() => {
-  //   main(); 
-  // }, 2000);  
+  timer = setInterval(() => {
+    main(); 
+  }, 2000);  
 }
 
 bootstrap();
@@ -139,14 +135,15 @@ async function main () {
               const compact = part.messageTypes.compact;
               const text = `${compact.storePickupProductTitle}  ${compact.storePickupQuote}`;
               canBuy.push(text);
-              // if (part.pickupSearchQuote !== '暂无供应') {
-              //     canBuy.push({
-              //         status: part.pickupSearchQuote,
-              //         type: part.storePickupProductTitle
-              //     })
-              // }
+              if (part.pickupSearchQuote !== '暂无供应') {
+                  const iphoneType = storePickupProductTitle.split(' ');
+                  sendMessage(iphoneType[iphoneType.length - 1], storeName);
+              }
           }
-          console.log(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}  ${storeName}  ${JSON.stringify(canBuy)}`)
+          console.log(`\n${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}  ${storeName}`);
+            for (const item of canBuy) {
+                console.log(item)
+            }
      }
      console.log('\n\n\n')
   } catch (error) {
