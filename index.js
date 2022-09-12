@@ -25,13 +25,13 @@ const sendMessage = async (iphoneType, storeName) => {
     "touser": "opuTv0A8A1_DQBHDGqGBrvdIMEdA",
     "data": {
       "thing1": {
-            "value": iphoneType
+            "value": storeName
         },
         "date3": {
             "value": `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
         },
         "thing2": {
-            "value": storeName
+            "value": iphoneType
         }
     },
     "miniprogram_state": "developer",
