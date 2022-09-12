@@ -28,7 +28,7 @@ const sendMessage = async (iphoneType, storeName) => {
             "value": storeName
         },
         "date3": {
-            "value": Date.now()
+            "value": `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toLocaleTimeString()}`
         },
         "thing2": {
             "value": iphoneType
@@ -86,7 +86,11 @@ app.post('/iphone14', async (req, res) => {
   res.json({
     code: 0,
     msg: 'success',
-    data: JSON.stringify(req.headers)
+    data: {
+      "date3": {
+        "value": `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toLocaleTimeString()}`
+    },
+    }
   })
 });
 
