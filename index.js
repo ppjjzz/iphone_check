@@ -135,12 +135,12 @@ async function main () {
               const compact = part.messageTypes.compact;
               const text = `${compact.storePickupProductTitle}  ${compact.storePickupQuote}`;
               canBuy.push(text);
-              if (part.pickupSearchQuote !== '暂无供应') {
+              if (compact.storeSelectionEnabled) {
                   const iphoneType = storePickupProductTitle.split(' ');
                   sendMessage(iphoneType[iphoneType.length - 1], storeName);
               }
           }
-          console.log(`\n${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}  ${storeName}`);
+          console.log(`\n${new Date().toLocaleDateString('zh-CN')} ${new Date().toLocaleTimeString('zh-CN')}  ${storeName}`);
             for (const item of canBuy) {
                 console.log(item)
             }
